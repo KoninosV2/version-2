@@ -49,10 +49,10 @@ const Contact = () => {
               Prefer email? Reach out directly at
             </p>
             <a
-              href="mailto:hello@devforge.dev"
+              href="mailto:konstantinos@vitouladitis.gr"
               className="text-foreground font-semibold text-lg hover:text-primary transition-colors"
             >
-              hello@devforge.dev
+              konstantinos@vitouladitis.gr
             </a>
           </div>
         </motion.div>
