@@ -37,7 +37,12 @@ const Navigation = () => {
                 {item.label}
               </a>
             ))}
-            <Button variant="default" size="sm" className="glow-effect">
+            <Button 
+              variant="default" 
+              size="sm" 
+              className="glow-effect"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Get in Touch
             </Button>
           </div>
@@ -69,7 +74,15 @@ const Navigation = () => {
                 {item.label}
               </a>
             ))}
-            <Button variant="default" size="sm" className="mt-4 w-full">
+            <Button 
+              variant="default" 
+              size="sm" 
+              className="mt-4 w-full"
+              onClick={() => {
+                setIsOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Get in Touch
             </Button>
           </motion.div>
