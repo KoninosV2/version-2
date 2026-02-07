@@ -32,14 +32,22 @@ const Contact = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" className="glow-effect group">
+            <Button 
+              size="lg" 
+              className="glow-effect group"
+              onClick={() => window.location.href = 'mailto:konstantinos@vitouladitis.gr'}
+            >
               <Mail className="mr-2 h-5 w-5" />
               Send a Message
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <Calendar className="mr-2 h-5 w-5" />
-              Schedule a Call
+              Explore Services
             </Button>
           </div>
 

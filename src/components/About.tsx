@@ -50,13 +50,13 @@ const About = () => {
               <span className="gradient-text">Your Success</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              With over 8 years of experience building software for startups and enterprises, 
-              I bring deep technical expertise combined with a genuine understanding of business needs. 
-              Every project is a collaboration, not just a transaction.
+              With deep expertise in Salesforce and custom software development, 
+              I help businesses transform their operations through technology. 
+              I don't just implement solutions—I understand your business and deliver results.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              {["React", "Node.js", "Salesforce", "PostgreSQL", "AWS", "TypeScript"].map((tech) => (
+              {["Salesforce", "Apex", "Lightning", "React", "Node.js", "PostgreSQL"].map((tech) => (
                 <span
                   key={tech}
                   className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium"

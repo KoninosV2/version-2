@@ -43,7 +43,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
-              Software Consulting & Development
+              Salesforce Expert & Custom Solutions
             </span>
           </motion.div>
 
@@ -53,8 +53,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
           >
-            Transforming Ideas into{" "}
-            <span className="gradient-text">Powerful Software</span>
+            Custom Business Solutions{" "}
+            <span className="gradient-text">That Scale</span>
           </motion.h1>
 
           <motion.p
@@ -63,8 +63,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            Expert CRM development, custom software solutions, and strategic consulting 
-            to help your business scale efficiently and stay ahead of the competition.
+            Specialized in Salesforce implementations, custom CRM solutions, and tailored 
+            software development to optimize your operations and accelerate growth.
           </motion.p>
 
           <motion.div
@@ -73,12 +73,20 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button size="lg" className="glow-effect group">
+            <Button 
+              size="lg" 
+              className="glow-effect group"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Start Your Project
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline">
-              View My Work
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              View Services
             </Button>
           </motion.div>
 

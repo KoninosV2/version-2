@@ -4,24 +4,24 @@ import { Database, Code, Lightbulb, ArrowUpRight } from "lucide-react";
 const services = [
   {
     icon: Database,
-    title: "CRM Development",
+    title: "Salesforce Solutions",
     description:
-      "Custom CRM solutions tailored to your business workflows. From Salesforce customization to building bespoke systems from scratch.",
-    features: ["Salesforce Development", "Custom CRM Platforms", "Data Migration", "Integration Services"],
+      "End-to-end Salesforce implementations tailored to your unique business processes. From Sales Cloud to Service Cloud, custom apps, and complex integrations.",
+    features: ["Sales & Service Cloud", "Custom Lightning Apps", "Apex Development", "AppExchange Integrations"],
   },
   {
     icon: Code,
     title: "Custom Software",
     description:
-      "Full-stack development of web applications, APIs, and enterprise software that scales with your business needs.",
-    features: ["Web Applications", "API Development", "Cloud Solutions", "System Architecture"],
+      "Bespoke business applications designed to solve your specific challenges. Web platforms, internal tools, and enterprise solutions built for performance.",
+    features: ["Business Applications", "Process Automation", "API Integrations", "Legacy Modernization"],
   },
   {
     icon: Lightbulb,
-    title: "Technical Consulting",
+    title: "Strategic Consulting",
     description:
-      "Strategic guidance on technology decisions, architecture reviews, and digital transformation roadmaps.",
-    features: ["Tech Stack Advisory", "Code Reviews", "Performance Audits", "Team Mentoring"],
+      "Expert guidance on CRM strategy, digital transformation, and technology decisions. Helping you make the right choices for long-term success.",
+    features: ["CRM Strategy", "Process Optimization", "Technology Roadmaps", "System Architecture"],
   },
 ];
 
@@ -40,11 +40,11 @@ const Services = () => {
             What I Offer
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4">
-            Services That Drive Results
+            Solutions That Transform Businesses
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive software solutions designed to streamline operations, 
-            enhance customer relationships, and accelerate growth.
+            From Salesforce implementations to custom-built applications, 
+            I deliver solutions that streamline operations and drive measurable results.
           </p>
         </motion.div>
 
