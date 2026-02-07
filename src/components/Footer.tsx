@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="font-display text-xl font-bold text-foreground">
-            <span className="gradient-text">Dev</span>Forge
+            <span className="gradient-text">version</span>2
           </div>
 
           {/* Social Links */}
@@ -39,7 +39,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">
-            © {currentYear} DevForge. All rights reserved.
+            © {currentYear} version2. All rights reserved.
           </p>
         </div>
       </div>
