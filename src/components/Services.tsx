@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { Database, Code, Lightbulb, ArrowUpRight } from "lucide-react";
+import { Code, Lightbulb, ArrowUpRight, Cloud } from "lucide-react";
 
 const services = [
   {
-    icon: Database,
+    icon: Cloud,
     title: "Salesforce Solutions",
     description:
       "End-to-end Salesforce implementations tailored to your unique business processes. From Sales Cloud to Service Cloud, custom apps, and complex integrations.",
