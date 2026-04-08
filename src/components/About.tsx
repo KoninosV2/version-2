@@ -15,7 +15,7 @@ const benefits = [
   {
     icon: Users,
     title: "Direct Communication",
-    description: "Work directly with a senior developer—no middlemen or account managers.",
+    description: "Work directly with a senior developer - no middlemen or account managers.",
   },
   {
     icon: CheckCircle2,
@@ -52,11 +52,11 @@ const About = () => {
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               With deep expertise in Salesforce and custom software development, 
               I help businesses transform their operations through technology. 
-              I don't just implement solutions—I understand your business and deliver results.
+              I don't just implement solutions - I understand your business and deliver results.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              {["Salesforce", "Apex", "Lightning", "React", "Node.js", "PostgreSQL"].map((tech) => (
+              {["Salesforce", "Java", "CMS", "AI", "Automation"].map((tech) => (
                 <span
                   key={tech}
                   className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium"
