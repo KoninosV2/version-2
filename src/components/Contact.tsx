@@ -32,14 +32,12 @@ const Contact = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button 
-              size="lg" 
-              className="glow-effect group"
-              onClick={() => window.location.href = 'mailto:konstantinos@vitouladitis.gr'}
-            >
-              <Mail className="mr-2 h-5 w-5" />
-              Send a Message
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            <Button size="lg" className="glow-effect group" asChild>
+              <a href="mailto:info@version2.gr">
+                <Mail className="mr-2 h-5 w-5" />
+                Send a Message
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </a>
             </Button>
             <Button 
               size="lg" 
@@ -57,10 +55,10 @@ const Contact = () => {
               Prefer email? Reach out directly at
             </p>
             <a
-              href="mailto:konstantinos@vitouladitis.gr"
+              href="mailto:info@version2.gr"
               className="text-foreground font-semibold text-lg hover:text-primary transition-colors"
             >
-              konstantinos@vitouladitis.gr
+              info@version2.gr
             </a>
           </div>
         </motion.div>
