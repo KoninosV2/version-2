@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="font-display text-xl font-bold text-foreground">
-            <span className="gradient-text">version</span>2
+            <span className="text-emphasis">version</span>2
           </div>
 
           {/* Social Links */}

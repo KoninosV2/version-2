@@ -1,84 +1,88 @@
 import { motion } from "framer-motion";
-import { MessageSquare, FileSearch, Wrench, Rocket } from "lucide-react";
+
+const EASE_OUT: [number, number, number, number] = [0.25, 1, 0.5, 1];
 
 const steps = [
   {
     number: "01",
-    icon: MessageSquare,
     title: "Discovery",
-    description: "We start with a detailed conversation about your goals, challenges, and vision. Understanding your business is the foundation of great software.",
+    description:
+      "I start with a detailed conversation about your goals, challenges, and vision. Understanding your business is the foundation of great software.",
   },
   {
     number: "02",
-    icon: FileSearch,
     title: "Planning",
-    description: "I create a comprehensive roadmap with clear milestones, technical specifications, and realistic timelines you can count on.",
+    description:
+      "I create a comprehensive roadmap with clear milestones, technical specifications, and realistic timelines you can count on.",
   },
   {
     number: "03",
-    icon: Wrench,
     title: "Development",
-    description: "Iterative development with regular demos keeps you informed and involved. Your feedback shapes the final product at every stage.",
+    description:
+      "Iterative development with regular demos keeps you informed and involved. Your feedback shapes the final product at every stage.",
   },
   {
     number: "04",
-    icon: Rocket,
     title: "Delivery & Support",
-    description: "Thorough testing, smooth deployment, and comprehensive documentation. Plus ongoing support to ensure lasting success.",
+    description:
+      "Thorough testing, smooth deployment, and comprehensive documentation. Plus ongoing support to ensure lasting success.",
   },
 ];
 
 const Process = () => {
   return (
-    <section id="process" className="py-24 relative section-pattern">
+    <section id="process" className="py-24">
       <div className="container mx-auto px-6">
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5, ease: EASE_OUT }}
+          className="mb-16"
         >
-          <span className="text-primary text-sm font-medium tracking-wider uppercase">
-            How I Work
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4">
-            A Proven Process
+          <h2 className="font-display text-4xl md:text-6xl font-bold text-foreground leading-tight">
+            A Proven<br />
+            <span className="text-emphasis">Process</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-[48ch]">
             A structured approach that ensures clarity, transparency, and exceptional results.
           </p>
         </motion.div>
 
         <div className="relative">
-          {/* Connection Line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+          {/* Vertical line */}
+          <div className="absolute left-[22px] top-3 bottom-3 w-px bg-border hidden md:block" aria-hidden="true" />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="space-y-0">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                className="relative"
+                transition={{ duration: 0.4, delay: index * 0.1, ease: EASE_OUT }}
+                className="grid md:grid-cols-[44px_1fr] gap-6 md:gap-10 py-8 border-b border-border last:border-0"
               >
-                <div className="glass-card rounded-2xl p-6 h-full relative z-10">
-                  {/* Step Number */}
-                  <span className="font-display text-5xl font-bold text-primary/20 absolute top-4 right-4">
-                    {step.number}
-                  </span>
+                <div className="flex md:flex-col items-center gap-3 md:gap-0">
+                  <motion.div
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: index * 0.1 + 0.1, ease: EASE_OUT }}
+                    className="relative z-10 w-11 h-11 rounded-full bg-card border-2 border-primary flex items-center justify-center flex-shrink-0"
+                  >
+                    <span className="font-display text-xs font-bold text-primary tabular-nums">
+                      {step.number}
+                    </span>
+                  </motion.div>
+                </div>
 
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <step.icon className="w-6 h-6 text-primary" />
-                  </div>
-
-                  <h3 className="font-display text-xl font-bold text-foreground mb-3">
+                <div className="pb-2">
+                  <h3 className="font-display text-2xl font-bold text-foreground mb-2">
                     {step.title}
                   </h3>
-
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed max-w-[60ch]">
                     {step.description}
                   </p>
                 </div>
@@ -86,6 +90,7 @@ const Process = () => {
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );
