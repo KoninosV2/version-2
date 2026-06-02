@@ -1,3 +1,5 @@
+Sitemap: https://version2.gr/sitemap.xml
+
 User-agent: Googlebot
 Allow: /
 
