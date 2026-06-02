@@ -1,6 +1,7 @@
 // Generates public/sitemap.xml from the canonical URL list.
-// Runs automatically before `npm run build` via the "prebuild" script, so the
-// sitemap is refreshed on every publish (GitHub Pages deploy runs `npm run build`).
+// Chained into the "build" script (runs before `vite build`), so the sitemap is
+// refreshed on every publish. The Cloudflare Workers build runs `bun run build`,
+// which copies public/ -> dist/ and is uploaded via `wrangler deploy`.
 import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
