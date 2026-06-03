@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
-import { flushSync } from "react-dom";
+import { getIsDark, setThemeChoice, subscribe } from "@/lib/theme";
 
 const EASE_OUT: [number, number, number, number] = [0.25, 1, 0.5, 1];
 
@@ -12,35 +12,25 @@ declare global {
 }
 
 const ThemeToggle = ({ id }: { id?: string } = {}) => {
-  const [isDark, setIsDark] = useState(false);
+  // Reactive resolved theme: starts on the system preference and tracks it live
+  // until the user picks a side, after which the explicit choice persists.
+  const isDark = useSyncExternalStore(subscribe, getIsDark, () => false);
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    // Sync with whatever the inline script applied before React hydrated
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
 
   const toggle = () => {
     const btn = btnRef.current;
-    if (!btn) return;
+    if (btn) {
+      const { left, top, width, height } = btn.getBoundingClientRect();
+      document.documentElement.style.setProperty("--vt-x", `${left + width / 2}px`);
+      document.documentElement.style.setProperty("--vt-y", `${top + height / 2}px`);
+    }
 
-    const { left, top, width, height } = btn.getBoundingClientRect();
-    document.documentElement.style.setProperty("--vt-x", `${left + width / 2}px`);
-    document.documentElement.style.setProperty("--vt-y", `${top + height / 2}px`);
-
-    const next = !isDark;
-
-    const apply = () => {
-      flushSync(() => setIsDark(next));
-      document.documentElement.classList.toggle("dark", next);
-      localStorage.setItem("theme", next ? "dark" : "light");
-    };
-
+    // Flip to the explicit opposite of the current resolved theme.
+    const apply = () => setThemeChoice(isDark ? "light" : "dark");
     if (!document.startViewTransition) {
       apply();
       return;
     }
-
     document.startViewTransition(apply);
   };
 

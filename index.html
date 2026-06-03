@@ -7,9 +7,11 @@
     <script>
       (function () {
         try {
+          // 'light'/'dark' = explicit override; anything else (incl. unset) = follow the OS.
           var s = localStorage.getItem('theme');
-          var q = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (s === 'dark' || (!s && q)) {
+          var dark = s === 'dark' ||
+            (s !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) {
             document.documentElement.classList.add('dark');
           }
         } catch (e) {}
