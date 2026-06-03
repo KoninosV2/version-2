@@ -15,7 +15,9 @@ dist-ssr
 # Bun is the single package manager; the npm lockfile is intentionally not used
 package-lock.json
 
+# Claude Code local files (project memory + local preview/settings — keep out of this public repo)
 CLAUDE.md
+.claude/
 
 # Editor directories and files
 .vscode/*
