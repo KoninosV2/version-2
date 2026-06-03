@@ -33,6 +33,11 @@ export function resolveIsDark(c: ThemeChoice = choice): boolean {
   return c === "dark" || (c === "system" && systemPrefersDark());
 }
 
+/** Current resolved dark state — reactive snapshot for useSyncExternalStore. */
+export function getIsDark(): boolean {
+  return resolveIsDark(choice);
+}
+
 function applyToDocument(): void {
   document.documentElement.classList.toggle("dark", resolveIsDark());
 }

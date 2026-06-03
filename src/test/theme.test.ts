@@ -110,4 +110,14 @@ describe("theme store", () => {
     const t = await loadTheme();
     expect(t.getThemeChoice()).toBe("system");
   });
+
+  it("getIsDark reflects the resolved theme (used by the binary toggle)", async () => {
+    installMatchMedia(true); // OS = dark
+    const t = await loadTheme();
+    expect(t.getIsDark()).toBe(true); // system + OS dark
+    t.setThemeChoice("light");
+    expect(t.getIsDark()).toBe(false); // explicit override wins
+    t.setThemeChoice("dark");
+    expect(t.getIsDark()).toBe(true);
+  });
 });

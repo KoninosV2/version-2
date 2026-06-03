@@ -1,23 +1,9 @@
 import { useRef, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Monitor, Moon, Sun } from "lucide-react";
-import {
-  type ThemeChoice,
-  getThemeChoice,
-  setThemeChoice,
-  subscribe,
-} from "@/lib/theme";
+import { Moon, Sun } from "lucide-react";
+import { getIsDark, setThemeChoice, subscribe } from "@/lib/theme";
 
 const EASE_OUT: [number, number, number, number] = [0.25, 1, 0.5, 1];
-
-// Cycle: System → Light → Dark → System.
-const NEXT: Record<ThemeChoice, ThemeChoice> = {
-  system: "light",
-  light: "dark",
-  dark: "system",
-};
-const ICON: Record<ThemeChoice, typeof Sun> = { system: Monitor, light: Sun, dark: Moon };
-const LABEL: Record<ThemeChoice, string> = { system: "System", light: "Light", dark: "Dark" };
 
 declare global {
   interface Document {
@@ -26,17 +12,12 @@ declare global {
 }
 
 const ThemeToggle = ({ id }: { id?: string } = {}) => {
-  const choice = useSyncExternalStore(
-    subscribe,
-    getThemeChoice,
-    () => "system" as ThemeChoice,
-  );
+  // Reactive resolved theme: starts on the system preference and tracks it live
+  // until the user picks a side, after which the explicit choice persists.
+  const isDark = useSyncExternalStore(subscribe, getIsDark, () => false);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const Icon = ICON[choice];
 
-  const cycle = () => {
-    const next = NEXT[choice];
-
+  const toggle = () => {
     const btn = btnRef.current;
     if (btn) {
       const { left, top, width, height } = btn.getBoundingClientRect();
@@ -44,7 +25,8 @@ const ThemeToggle = ({ id }: { id?: string } = {}) => {
       document.documentElement.style.setProperty("--vt-y", `${top + height / 2}px`);
     }
 
-    const apply = () => setThemeChoice(next);
+    // Flip to the explicit opposite of the current resolved theme.
+    const apply = () => setThemeChoice(isDark ? "light" : "dark");
     if (!document.startViewTransition) {
       apply();
       return;
@@ -56,9 +38,8 @@ const ThemeToggle = ({ id }: { id?: string } = {}) => {
     <button
       ref={btnRef}
       id={id}
-      onClick={cycle}
-      aria-label={`Theme: ${LABEL[choice]}. Activate to switch to ${LABEL[NEXT[choice]]}.`}
-      title={`Theme: ${LABEL[choice]}`}
+      onClick={toggle}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={[
         "w-9 h-9 rounded-full",
         "border border-border",
@@ -70,13 +51,13 @@ const ThemeToggle = ({ id }: { id?: string } = {}) => {
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={choice}
+          key={isDark ? "sun" : "moon"}
           initial={{ scale: 0.4, rotate: -60, opacity: 0 }}
           animate={{ scale: 1, rotate: 0, opacity: 1 }}
           exit={{ scale: 0.4, rotate: 60, opacity: 0 }}
           transition={{ duration: 0.2, ease: EASE_OUT }}
         >
-          <Icon size={18} strokeWidth={2} />
+          {isDark ? <Sun size={18} strokeWidth={2} /> : <Moon size={18} strokeWidth={2} />}
         </motion.div>
       </AnimatePresence>
     </button>
