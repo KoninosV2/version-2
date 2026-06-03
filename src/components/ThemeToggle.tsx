@@ -1,9 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Moon, Sun } from "lucide-react";
-import { flushSync } from "react-dom";
+import { Monitor, Moon, Sun } from "lucide-react";
+import {
+  type ThemeChoice,
+  getThemeChoice,
+  setThemeChoice,
+  subscribe,
+} from "@/lib/theme";
 
 const EASE_OUT: [number, number, number, number] = [0.25, 1, 0.5, 1];
+
+// Cycle: System → Light → Dark → System.
+const NEXT: Record<ThemeChoice, ThemeChoice> = {
+  system: "light",
+  light: "dark",
+  dark: "system",
+};
+const ICON: Record<ThemeChoice, typeof Sun> = { system: Monitor, light: Sun, dark: Moon };
+const LABEL: Record<ThemeChoice, string> = { system: "System", light: "Light", dark: "Dark" };
 
 declare global {
   interface Document {
@@ -12,35 +26,29 @@ declare global {
 }
 
 const ThemeToggle = ({ id }: { id?: string } = {}) => {
-  const [isDark, setIsDark] = useState(false);
+  const choice = useSyncExternalStore(
+    subscribe,
+    getThemeChoice,
+    () => "system" as ThemeChoice,
+  );
   const btnRef = useRef<HTMLButtonElement>(null);
+  const Icon = ICON[choice];
 
-  useEffect(() => {
-    // Sync with whatever the inline script applied before React hydrated
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
+  const cycle = () => {
+    const next = NEXT[choice];
 
-  const toggle = () => {
     const btn = btnRef.current;
-    if (!btn) return;
+    if (btn) {
+      const { left, top, width, height } = btn.getBoundingClientRect();
+      document.documentElement.style.setProperty("--vt-x", `${left + width / 2}px`);
+      document.documentElement.style.setProperty("--vt-y", `${top + height / 2}px`);
+    }
 
-    const { left, top, width, height } = btn.getBoundingClientRect();
-    document.documentElement.style.setProperty("--vt-x", `${left + width / 2}px`);
-    document.documentElement.style.setProperty("--vt-y", `${top + height / 2}px`);
-
-    const next = !isDark;
-
-    const apply = () => {
-      flushSync(() => setIsDark(next));
-      document.documentElement.classList.toggle("dark", next);
-      localStorage.setItem("theme", next ? "dark" : "light");
-    };
-
+    const apply = () => setThemeChoice(next);
     if (!document.startViewTransition) {
       apply();
       return;
     }
-
     document.startViewTransition(apply);
   };
 
@@ -48,8 +56,9 @@ const ThemeToggle = ({ id }: { id?: string } = {}) => {
     <button
       ref={btnRef}
       id={id}
-      onClick={toggle}
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      onClick={cycle}
+      aria-label={`Theme: ${LABEL[choice]}. Activate to switch to ${LABEL[NEXT[choice]]}.`}
+      title={`Theme: ${LABEL[choice]}`}
       className={[
         "w-9 h-9 rounded-full",
         "border border-border",
@@ -61,13 +70,13 @@ const ThemeToggle = ({ id }: { id?: string } = {}) => {
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={isDark ? "sun" : "moon"}
+          key={choice}
           initial={{ scale: 0.4, rotate: -60, opacity: 0 }}
           animate={{ scale: 1, rotate: 0, opacity: 1 }}
           exit={{ scale: 0.4, rotate: 60, opacity: 0 }}
           transition={{ duration: 0.2, ease: EASE_OUT }}
         >
-          {isDark ? <Sun size={18} strokeWidth={2} /> : <Moon size={18} strokeWidth={2} />}
+          <Icon size={18} strokeWidth={2} />
         </motion.div>
       </AnimatePresence>
     </button>
