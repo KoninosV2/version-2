@@ -1,73 +1,88 @@
-# Welcome to your Lovable project
+# version2.gr
 
-## Project info
+Marketing website for **version2** — a consultancy that helps businesses upgrade to *their next version* through custom CRM implementations, Salesforce solutions, and tailored software development.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🌐 **Live:** [version2.gr](https://version2.gr)
 
-## How can I edit this code?
+## Overview
 
-There are several ways of editing your application.
+A single-page marketing site: one route (`/`) composes the whole page from stacked section components, rendered client-side and served as static assets from Cloudflare's edge.
 
-**Use Lovable**
+## Tech stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+| Area | Choice |
+|------|--------|
+| Build tool | [Vite](https://vitejs.dev) |
+| Language | TypeScript |
+| UI | React 18 |
+| Styling | Tailwind CSS + a small set of [shadcn/ui](https://ui.shadcn.com) components |
+| Animation | Framer Motion |
+| Theming | `next-themes` (light / dark, warm-amber palette) |
+| Package manager | [Bun](https://bun.sh) |
+| Hosting | Cloudflare Workers (static assets) |
 
-Changes made via Lovable will be committed automatically to this repo.
+## Project structure
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+.
+├── public/                     # Copied verbatim into the build output
+│   ├── favicon.svg
+│   ├── robots.txt              # references the sitemap
+│   └── sitemap.xml             # generated at build time
+├── scripts/
+│   ├── generate-sitemap.mjs    # writes public/sitemap.xml before each build
+│   └── generate-headers.mjs    # writes dist/_headers (security + caching) after each build
+├── src/
+│   ├── components/             # Page sections + UI
+│   │   ├── Navigation.tsx  Hero.tsx  Services.tsx  About.tsx
+│   │   ├── Process.tsx  Contact.tsx  Footer.tsx  ThemeToggle.tsx
+│   │   └── ui/                 # The 5 shadcn/ui primitives in use
+│   │       └── button · toast · toaster · sonner · tooltip
+│   ├── pages/
+│   │   ├── Index.tsx           # the page (assembles the sections)
+│   │   └── NotFound.tsx        # 404
+│   ├── hooks/use-toast.ts
+│   ├── lib/utils.ts            # `cn()` class-name helper
+│   ├── test/                   # Vitest setup + tests
+│   ├── App.tsx                 # providers (React Query, Tooltip, toasters) + router
+│   ├── main.tsx                # entry point
+│   └── index.css               # design tokens (warm off-white / amber) + custom utilities
+├── index.html                  # includes an inline theme script (prevents theme flash)
+├── wrangler.jsonc              # Cloudflare Workers static-assets config
+└── tailwind / postcss / tsconfig / eslint / vitest config
 ```
 
-**Edit a file directly in GitHub**
+## The page
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+`src/pages/Index.tsx` stacks the sections in order:
 
-**Use GitHub Codespaces**
+> **Navigation → Hero → Services → About → Process → Contact → Footer**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Each section has its own `id` for smooth-scroll anchor navigation from the nav bar.
 
-## What technologies are used for this project?
+## Getting started
 
-This project is built with:
+Requires [Bun](https://bun.sh).
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```sh
+bun install      # install dependencies
+bun run dev      # start the dev server (Vite HMR)
+```
 
-## How can I deploy this project?
+Other commands:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+| Command | Does |
+|---------|------|
+| `bun run build` | Generate the sitemap, build to `dist/`, then generate `dist/_headers` |
+| `bun run preview` | Preview the production build locally |
+| `bun run test` | Run tests once (Vitest) |
+| `bun run lint` | Lint (ESLint) |
 
-## Can I connect a custom domain to my Lovable project?
+## Deployment
 
-Yes, you can!
+Hosted on **Cloudflare Workers** (static assets) at [version2.gr](https://version2.gr), configured in [`wrangler.jsonc`](./wrangler.jsonc). A push to `main` triggers a Cloudflare build (`bun run build`) and deploy (`npx wrangler deploy`).
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The build pipeline also:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **regenerates `sitemap.xml`** (with a git-derived `<lastmod>`), referenced from `robots.txt`;
+- **emits a `_headers` file** with a strict Content-Security-Policy and other security headers (HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`), plus long-lived caching for content-hashed assets.
