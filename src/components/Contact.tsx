@@ -35,7 +35,7 @@ const Contact = () => {
             <Button size="lg" className="glow-effect group w-full sm:w-auto" asChild>
               <a href="mailto:info@version2.gr">
                 <Mail className="mr-2 h-5 w-5" />
-                Send a Message
+                Get in Touch
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>

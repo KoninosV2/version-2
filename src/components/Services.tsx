@@ -7,7 +7,7 @@ const services = [
     icon: Cloud,
     title: "Salesforce Solutions",
     description:
-      "End-to-end Salesforce implementations tailored to your unique business processes. From Sales Cloud to Service Cloud, custom apps, and complex integrations.",
+      "End-to-end Salesforce implementations shaped around your business processes. From Sales Cloud to Service Cloud, custom apps, and complex integrations.",
     features: ["Sales & Service Cloud", "Custom Lightning Apps", "Apex Development", "AppExchange Integrations"],
   },
   {
@@ -40,8 +40,8 @@ const Services = () => {
           className="mb-16"
         >
           <h2 className="font-display text-4xl md:text-6xl font-bold text-foreground leading-tight">
-            Solutions That<br />
-            <span className="text-emphasis">Transform Businesses</span>
+            Solutions Built Around<br />
+            <span className="text-emphasis">How You Work</span>
           </h2>
         </motion.div>
 
