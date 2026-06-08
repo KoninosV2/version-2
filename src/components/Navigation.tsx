@@ -122,13 +122,9 @@ const Navigation = () => {
                 >
                   Get in Touch
                 </Button>
-                <label
-                  htmlFor="mobile-theme-toggle"
-                  className="mt-4 pt-4 border-t border-border w-full flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer"
-                >
-                  <ThemeToggle id="mobile-theme-toggle" />
-                  <span>Toggle theme</span>
-                </label>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <ThemeToggle id="mobile-theme-toggle" label="Toggle theme" />
+                </div>
               </div>
             </motion.div>
           )}
