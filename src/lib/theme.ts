@@ -73,6 +73,11 @@ export function subscribe(onChange: () => void): () => void {
 export function initThemeListener(): void {
   if (initialized || typeof window === "undefined") return;
   initialized = true;
+  // Reconcile the DOM to the resolved theme on startup. The pre-hydration inline
+  // script normally does this first (avoiding a flash), but if it ever fails to
+  // run (e.g. blocked by CSP), this keeps the <html> class in sync with the store
+  // so the page and the toggle icon can't silently disagree.
+  applyToDocument();
   window.matchMedia(MEDIA_QUERY).addEventListener("change", () => {
     if (choice === "system") {
       applyToDocument();

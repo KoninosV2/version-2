@@ -17,9 +17,16 @@ const dist = resolve(dirname(fileURLToPath(import.meta.url)), "..", "dist");
 const html = readFileSync(resolve(dist, "index.html"), "utf8");
 
 // sha256-<base64> for every inline <script> (those without a src attribute).
+// The HTML parser normalizes newlines (CRLF/CR -> LF) before the browser
+// computes the CSP hash, so we MUST hash the LF-normalized content. Hashing the
+// raw file bytes breaks on CRLF checkouts (e.g. Windows): the generated hash
+// would never match the browser's, silently blocking the inline theme script.
 const inlineScriptHashes = [
   ...html.matchAll(/<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/g),
-].map((m) => `'sha256-${createHash("sha256").update(m[1], "utf8").digest("base64")}'`);
+].map((m) => {
+  const normalized = m[1].replace(/\r\n?/g, "\n");
+  return `'sha256-${createHash("sha256").update(normalized, "utf8").digest("base64")}'`;
+});
 
 const csp = [
   "default-src 'self'",
