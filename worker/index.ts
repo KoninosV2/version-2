@@ -71,21 +71,29 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
   }
   const data = parsed.data;
 
+  // Misconfiguration guard. Without a sender/recipient, mimetext throws while
+  // building the message (MIMETEXT_INVALID_MAILBOX) — an unhandled error that
+  // surfaces as a raw Cloudflare 1101 instead of our JSON contract. Fail cleanly
+  // so the form shows the proper error and the cause is greppable in the logs.
+  if (!env.LEAD_FROM || !env.LEAD_TO) {
+    console.error("Lead email misconfigured: LEAD_FROM/LEAD_TO not set");
+    return json({ ok: false, error: "We couldn't send your message right now." }, 502);
+  }
+
   const submittedAt = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Europe/Athens",
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date());
 
-  const raw = buildRawEmail({
-    from: env.LEAD_FROM,
-    to: env.LEAD_TO,
-    replyTo: data.email,
-    subject: buildSubject(data),
-    body: buildBody(data, submittedAt),
-  });
-
   try {
+    const raw = buildRawEmail({
+      from: env.LEAD_FROM,
+      to: env.LEAD_TO,
+      replyTo: data.email,
+      subject: buildSubject(data),
+      body: buildBody(data, submittedAt),
+    });
     await env.LEAD_EMAIL.send(new EmailMessage(env.LEAD_FROM, env.LEAD_TO, raw));
   } catch (err) {
     console.error("Lead email failed to send", err);
