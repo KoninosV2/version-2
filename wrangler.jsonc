@@ -1,9 +1,49 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "version-2",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-05-27",
+  // mimetext (MIME builder for the email binding) imports Node built-ins.
+  "compatibility_flags": ["nodejs_compat"],
+  // Workers observability: collect invocation logs (enabled in the dashboard).
+  // Declared here so `wrangler deploy` keeps it on instead of resetting it.
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false
+    }
+  },
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "not_found_handling": "single-page-application"
+  },
+  // LEAD_FROM is a no-reply sender identity on the zone (not a mailbox).
+  // LEAD_TO is the recipient and is NOT committed (this repo is public) — it is
+  // set via `.dev.vars` locally and a Cloudflare dashboard var in production.
+  "vars": {
+    "LEAD_FROM": "form@version2.gr"
+  },
+  // Cloudflare Email Routing send_email binding. No destination_address here so
+  // the recipient address is not exposed in the public repo; the Worker only
+  // ever sends to env.LEAD_TO, which must be a verified Email Routing destination.
+  "send_email": [
+    {
+      "name": "LEAD_EMAIL"
+    }
+  ],
+  // Native per-IP rate limit for POST /api/contact: 5 requests / 60s.
+  "unsafe": {
+    "bindings": [
+      {
+        "name": "RATE_LIMITER",
+        "type": "ratelimit",
+        "namespace_id": "1001",
+        "simple": { "limit": 5, "period": 60 }
+      }
+    ]
   }
 }

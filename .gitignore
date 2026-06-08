@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Cloudflare Worker local secrets/vars (recipient address, etc.)
+.dev.vars
+.wrangler
+
 # Bun is the single package manager; the npm lockfile is intentionally not used
 package-lock.json
 
