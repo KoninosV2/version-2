@@ -5,6 +5,17 @@
   "compatibility_date": "2026-05-27",
   // mimetext (MIME builder for the email binding) imports Node built-ins.
   "compatibility_flags": ["nodejs_compat"],
+  // Workers observability: collect invocation logs (enabled in the dashboard).
+  // Declared here so `wrangler deploy` keeps it on instead of resetting it.
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false
+    }
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
