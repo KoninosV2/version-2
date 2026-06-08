@@ -11,7 +11,7 @@ const strengths = [
   },
   {
     label: "Direct Communication",
-    body: "Work directly with a senior developer — no middlemen or account managers.",
+    body: "Work directly with a senior developer, with no middlemen or account managers.",
   },
   {
     label: "Ongoing Support",
@@ -39,8 +39,8 @@ const About = () => {
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-10 max-w-[52ch]">
               With deep expertise in Salesforce and custom software development,
-              I help businesses transform their operations through technology.
-              I don't just implement solutions — I understand your business and deliver results.
+              I help businesses run their operations more effectively.
+              I don't just implement solutions. I understand your business and deliver results.
             </p>
 
             <div className="flex flex-wrap gap-2">
